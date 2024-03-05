@@ -1,0 +1,85 @@
+﻿@model ProjectManager.Models.Atividade
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Atividade</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ProjetoId" class="control-label"></label>
+                <select asp-for="ProjetoId" class="form-control" asp-items="ViewBag.ProjetoId"></select>
+                <span asp-validation-for="ProjetoId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataInicio" class="control-label"></label>
+                <input asp-for="DataInicio" class="form-control" />
+                <span asp-validation-for="DataInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataTermino" class="control-label"></label>
+                <input asp-for="DataTermino" class="form-control" />
+                <span asp-validation-for="DataTermino" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Responsavel" class="control-label"></label>
+                <input asp-for="Responsavel" class="form-control" />
+                <span asp-validation-for="Responsavel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Integrantes" class="control-label"></label>
+                <select id="opcoes" multiple name="opcoes" asp-for="Integrantes" asp-items="ViewBag.IntegrantesProjeto as IEnumerable<SelectListItem>" class="form-control"></select>
+                <input type="hidden" id="opcaoSelecionada" value="" />
+                <a id="link" asp-controller="Atividade" asp-action="DeleteIntegrante" asp-route-idUsuario="" asp-route-id=@Model.Id class="btn btn-danger glyphicon glyphicon-remove"></a>
+                <a asp-controller="Usuario" asp-action="Index" asp-route-adicao="Atividade" asp-route-id="@Model.Id" class="btn btn-info glyphicon glyphicon-zoom-in"></a>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+@{
+    var integrantes = ViewBag.IntegrantesProjeto;
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+<script>
+    var integrantes = @Html.Raw(Json.Serialize(integrantes));
+
+    document.getElementById('opcoes').addEventListener('change', function () {
+        var opcaoSelecionada = this.options[this.selectedIndex].value;
+        var link = document.getElementById('link');
+        var url = new URL(link.href);
+        url.searchParams.set('idUsuario', opcaoSelecionada);
+        link.href = url.toString();
+    });
+</script>

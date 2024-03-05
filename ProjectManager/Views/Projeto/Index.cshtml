@@ -1,0 +1,93 @@
+﻿@model IEnumerable<ProjectManager.Models.Projeto>
+@using Microsoft.AspNetCore.Identity
+@using ProjectManager.Models
+
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    ViewData["Id"] = UserManager.GetUserId(User);
+}
+
+@if (TempData["SucessoCadastro"] != null)
+{
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+        @TempData["SucessoCadastro"]
+    </div>
+}
+
+@if (TempData["FalhaCadastro"] != null)
+{
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+        @TempData["FalhaCadastro"]
+    </div>
+}
+
+@{
+    ViewData["Title"] = "Transforme suas ideias em realidade!";
+}
+
+<br/>
+<div class="card-header"><h4>@ViewData["Title"]</h4></div>
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataTermino)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Responsavel)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @{
+                    var enumStatus = (ProjectManager.Enums.EnumStatusProjeto)item.Status;
+                    var descricaoStatus = ProjectManager.Models.PadraoCadastro.GetDescription(enumStatus);
+                    @Html.DisplayFor(modelItem => descricaoStatus);
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataTermino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Responsavel)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Create" class="btn btn-success">Criar novo projeto</a>
+    <a asp-controller="Projeto" asp-action="ProjetosParticipantes" asp-route-id="@ViewData["Id"]" class="btn btn-primary">Meus projetos</a>
+</div>
+

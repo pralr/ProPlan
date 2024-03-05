@@ -1,0 +1,63 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model ProjectManager.Models.Projeto
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    ViewData["Usuario"] = UserManager.GetUserName(User);
+}
+
+<br/><br/>
+<div class="row d-flex justify-content-center align-items-center">
+    <div class="card text-white bg-primary mb-3" style="max-width: 100%;">
+        <div class="card-header"><h7>Atualize as informações do seu projeto!</h7></div>
+        <div class="card-body">
+            <p class="card-text">
+                <div class="col-md-12">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Status" class="control-label"></label>
+                            <select asp-for="Status" class="form-control" asp-items="ViewBag.Status as IEnumerable<SelectListItem>"></select>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group">
+                            <label asp-for="Descricao" class="control-label"></label>
+                            <input asp-for="Descricao" class="form-control" />
+                            <span asp-validation-for="Descricao" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DataInicio" class="control-label"></label>
+                            <input asp-for="DataInicio" class="form-control" />
+                            <span asp-validation-for="DataInicio" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DataTermino" class="control-label"></label>
+                            <input asp-for="DataTermino" class="form-control" />
+                            <span asp-validation-for="DataTermino" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Responsavel" class="control-label"></label>
+                            <input asp-for="Responsavel" class="form-control" readonly value=@ViewData["Usuario"] />
+                            <span asp-validation-for="Responsavel" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Salvar" class="btn btn-success" />
+                            <a class="btn btn-secondary" asp-action="Index">Voltar a lista</a>
+                        </div>
+                    </form>
+                </div>
+            </p>
+        </div>
+    </div>
+
+</div>
+
+

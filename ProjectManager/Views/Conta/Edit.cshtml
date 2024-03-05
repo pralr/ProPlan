@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model UsuarioViewModel
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var userId = UserManager.GetUserId(User);
+    ViewData["Id"] = userId;
+} 
+
+<br/>
+@if (TempData["SucessoAtualizacao"] != null)
+{
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+        @TempData["SucessoAtualizacao"]
+    </div>
+}
+
+<br/>
+<div class="card mb-3">
+    <h3 class="card-header">Olá, @Model.Nome!</h3>
+    <div class="card-body">
+    </div>
+    <div class="card-body">
+        <p class="card-text">Apresente-se um pouco melhor para se integrar em próximos projetos.</p>
+    </div>
+      <form asp-action="Edit" asp-route-id="@ViewData["Id"]" method="post">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+            </li>
+            <li class="list-group-item">
+                <label asp-for="Sobrenome" class="control-label"></label>
+                <input asp-for="Sobrenome" class="form-control" />
+            </li>
+            <li class="list-group-item">
+                <label asp-for="Descricao" class="control-label"></label>
+                <input asp-for="Descricao" class="form-control" style="width: 100%;" />
+            </li>
+            <li class="list-group-item">
+                <label asp-for="TipoCargo" class="control-label"></label>
+                <select asp-for="TipoCargo" class="form-control" asp-items="ViewBag.TipoCargo as IEnumerable<SelectListItem>" style="width: 100%;"></select>
+            </li>
+            <li class="list-group-item">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+            </li>
+            <li class="list-group-item">
+                <label asp-for="Telefone" class="control-label"></label>
+                <input asp-for="Telefone" class="form-control" />
+            </li>
+        </ul>
+        <div class="card-body">
+            <a href="#" class="card-link">Linkedln</a>
+            <a href="#" class="card-link">E-mail</a>
+        </div>
+        <div class="card-footer text-muted">
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-success" />
+                <a asp-controller="Projeto" asp-action="ProjetosParticipantes" asp-route-id="@ViewData["Id"]" class="btn btn-info">Meus projetos</a>
+            </div>
+        </div>
+      </form>  
+</div>

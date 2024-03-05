@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ProjectManager.ViewModels.UsuarioViewModel>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+@{
+    ViewData["Title"] = "Busque os integrantes de seu projeto!";
+}
+
+<br/>
+<div class="card-header">
+    <h4 style="color:#007bff;">@ViewData["Title"]</h4>
+</div>
+<br/>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoCargo)
+            </th>
+            <th>
+                Mais informações
+            </th>
+            <th>
+                Adicionar
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @{
+                    var enumCargo = (ProjectManager.Enums.EnumTipoCargo)item.TipoCargo;
+                    var descricaoCargo = ProjectManager.Models.PadraoCadastro.GetDescription(enumCargo);
+                    @Html.DisplayFor(modelItem => descricaoCargo);
+                }
+            </td>
+            <td>
+                <a class="btn btn-info" style="background-color:#007bff;" asp-controller="Conta" asp-action="Profile" asp-route-id="@item.Id">Visualizar perfil</a>
+            </td>
+            <td>
+                <a asp-controller=@ViewBag.Adicao asp-action="AddIntegrante" asp-route-idUsuario="@item.Id" asp-route-id="@ViewBag.Id" class="btn btn-success glyphicon glyphicon-plus"></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

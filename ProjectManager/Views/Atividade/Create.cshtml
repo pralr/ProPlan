@@ -1,0 +1,57 @@
+﻿@model ProjectManager.Models.Atividade
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<br/>
+<div class="card-header">
+<h4>Impulsione seu projeto agora!</h4>
+</div>
+<br />
+<h6>Cadastre sua atividade.</h6>
+
+<div class="row d-flex justify-content-center align-items-center">
+    <div class="card text-white bg-success mb-3" style="max-width: 100%;">
+        <div class="card-header"><h7>Preencha as informações de cadastro</h7></div>
+        <div class="card-body">
+            <p class="card-text">
+                <div class="col-md-12">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <label asp-for="ProjetoId" class="control-label"></label>
+                        <input asp-for="ProjetoId" value="@ViewBag.IdProjeto" readonly class="form-control" />
+                        <span asp-validation-for="Descricao" class="text-danger"></span>
+                        <div class="form-group">
+                            <label asp-for="Descricao" class="control-label"></label>
+                            <input asp-for="Descricao" class="form-control" />
+                            <span asp-validation-for="Descricao" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DataInicio" class="control-label"></label>
+                            <input asp-for="DataInicio" class="form-control" />
+                            <span asp-validation-for="DataInicio" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DataTermino" class="control-label"></label>
+                            <input asp-for="DataTermino" class="form-control" />
+                            <span asp-validation-for="DataTermino" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Responsavel" class="control-label"></label>
+                            <select asp-for="Responsavel" asp-items="ViewBag.IntegrantesProjeto as IEnumerable<SelectListItem>" class="form-control">
+                                <option value="">Selecione um usuário</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Criar atividade" class="btn btn-primary" />
+                            <a class="btn btn-secondary" asp-controller="Projeto" asp-action="Details" asp-route-id="@ViewBag.IdProjeto">Voltar ao projeto</a>
+                        </div>
+                    </form>
+                </div>
+            </p>
+        </div>
+    </div>
+
+</div>
+
